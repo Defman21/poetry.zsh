@@ -4,9 +4,13 @@ zsh-poetry-shell-activate() {
     return 1
   fi
 
-  if [ -e "$(pwd)/pyproject.toml" ]; then
+  local pyproject=$(pwd)/pyproject.toml
+
+  if [ -e $pyproject ]; then
     if [ ! "$POETRY_ACTIVE" ]; then
-      poetry shell
+      if grep -Fxq "[tool.poetry]" $pyproject; then
+        poetry shell
+      fi
     fi
   fi  
 }
